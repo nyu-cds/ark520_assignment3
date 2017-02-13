@@ -15,28 +15,7 @@
     """
     By far, the biggest change was removing the duplicated function calls.
     
-    I tried parallelization for the loops where it was safe to do them, but it was actually slower.
-    
-    The relative speedups were:
-    {1: 2.3767373358321096,
-    2: 1.1505620539678709,
-    3: 1.0679881822025878,
-    4: 2049.8051039167353,
-    'orig': 1.0,
-    'opt': 2281.8479520841111}
-    
-    
-    The times were:
-    {1: 33.572911055001896,
-    2: 69.352183918992523,
-    3: 74.714301624975633,
-    4: 0.038927599031012505,
-    'orig': 79.793991176993586,
-    'opt': 0.034969021973665804}
- 
- 
-    So, yes, it runs in well under 30 seconds :-)
-     
+    I tried parallelization for the loops where it was safe to do them, but it was actually slower.     
      
     N-body simulation.
 """
