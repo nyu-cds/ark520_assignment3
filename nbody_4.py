@@ -141,11 +141,11 @@ def nbody(loops, reference, iterations):
     
     def l_func(_):
         report_energy()
-        map(i_func, range(iterations))
+        list(map(i_func, range(iterations)))
         print(report_energy())
                                     
                                     
-    map(l_func, range(loops))
+    list(map(l_func, range(loops)))
 
 if __name__ == '__main__':
     nbody(100, 'sun', 20000)

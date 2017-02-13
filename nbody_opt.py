@@ -71,6 +71,7 @@ BODIES = {
 VISIT_SCHEDULE = list(combinations(BODIES.keys(), 2))
 BODIES1, BODIES2= zip(*VISIT_SCHEDULE)
 BODIES_KEYS = list(BODIES.keys())
+dt = 0.01
 
 #def compute_deltas(x1, x2, y1, y2, z1, z2):
 #    return (x1-x2, y1-y2, z1-z2)
@@ -96,7 +97,7 @@ BODIES_KEYS = list(BODIES.keys())
 #    r[2] += dt * vz
 
 
-def to_do(body1, body2, BODIES=BODIES):
+def to_do(body1, body2, BODIES=BODIES, dt=dt):
     ([x1, y1, z1], v1, m1) = BODIES[body1]
     ([x2, y2, z2], v2, m2) = BODIES[body2]
     #(dx, dy, dz) = compute_deltas(x1, x2, y1, y2, z1, z2)
@@ -114,20 +115,20 @@ def to_do(body1, body2, BODIES=BODIES):
     v2[1] += dy * thing_for_v2
     v2[2] += dz * thing_for_v2
 
-def update_rs_for_body(body, BODIES=BODIES):
+def update_rs_for_body(body, BODIES=BODIES, dt=dt):
     (r, [vx, vy, vz], m) = BODIES[body]
     #update_rs(r, dt, vx, vy, vz)
     r[0] += dt * vx
     r[1] += dt * vy
     r[2] += dt * vz 
     
-def advance(dt, VISIT_SCHEDULE=VISIT_SCHEDULE, BODIES=BODIES, BODIES1=BODIES1, BODIES2=BODIES2):
+def advance(dt=dt, VISIT_SCHEDULE=VISIT_SCHEDULE, BODIES=BODIES, BODIES1=BODIES1, BODIES2=BODIES2):
     '''
         advance the system one timestep
     '''
     
-    map(to_do, BODIES1, BODIES2)       
-    map(update_rs_for_body, BODIES_KEYS)
+    list(map(to_do, BODIES1, BODIES2))      
+    list(map(update_rs_for_body, BODIES_KEYS))
     
 
 def compute_energy(m1, m2, dx, dy, dz):
@@ -170,7 +171,7 @@ def offset_momentum(ref, px=0.0, py=0.0, pz=0.0, BODIES=BODIES, BODIES_KEYS=BODI
     v[2] = pz / m
 
 
-def nbody(loops, reference, iterations):
+def nbody(loops, reference, iterations, BODIES=BODIES, BODIES_KEYS=BODIES_KEYS, BODIES1=BODIES1, BODIES2=BODIES2):
     '''
         nbody simulation
         loops - number of loops to run
@@ -180,24 +181,41 @@ def nbody(loops, reference, iterations):
     # Set up global state
     offset_momentum(BODIES[reference])
 
-    """    
-    for _ in range(loops):
-        report_energy(BODIES=BODIES)
-        for _ in range(iterations):
-            advance(0.01, BODIES=BODIES)
-        print(report_energy(BODIES=BODIES))
-    """        
         
+    for _ in range(loops):
+        for _ in range(iterations):
+            
+            list(map(to_do, BODIES1, BODIES2))      
+            list(map(update_rs_for_body, BODIES_KEYS))
+            #advance(0.01, BODIES=BODIES)
+        print(report_energy(BODIES=BODIES))
+            
+    """    
     def i_func(_):
-        advance(0.01, BODIES=BODIES)
+        advance()
     
     def l_func(_):
-        map(i_func, range(iterations))
+        list(map(i_func, range(iterations)))
         print(report_energy())
                                     
                                     
-    map(l_func, range(loops))
-
+    list(map(l_func, range(loops)))
+"""
 
 if __name__ == '__main__':
     nbody(100, 'sun', 20000)
+
+ 
+    """ 
+    
+    The relative speedups are: 
+    {1: 2.5943132204285995, 2: 1.162570218357162, 3: 1.0218080537714478, 4: 0.99983733795216001, 'orig': 1.0, 'opt': 2.7429071609949354}
+    
+    The time it took to run is:
+    {1: 30.994290845002979, 2: 69.164767191978171, 3: 78.692762500955723, 4: 80.421980100974906, 'orig': 80.408898497000337, 'opt': 29.31520965800155}
+    
+    I did break 30 seconds. :)
+    
+    """
+
+    
