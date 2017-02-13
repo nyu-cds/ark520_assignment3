@@ -1,5 +1,19 @@
-"""
-    By far, the biggest change was changing the outer for loops to use map().
+
+ 
+    """ 
+    
+    The relative speedups are: 
+    {1: 2.5943132204285995, 2: 1.162570218357162, 3: 1.0218080537714478, 4: 0.99983733795216001, 'orig': 1.0, 'opt': 2.8114968869479546}
+    
+    The time it took to run is:
+    {1: 30.994290845002979, 2: 69.164767191978171, 3: 78.692762500955723, 4: 80.421980100974906, 'orig': 80.408898497000337, 'opt': 28.600031132984441}
+    
+    I did break 30 seconds. :)
+    
+    """
+
+    """
+    By far, the biggest change was removing the duplicated function calls.
     
     I tried parallelization for the loops where it was safe to do them, but it was actually slower.
     
@@ -183,8 +197,7 @@ def nbody(loops, reference, iterations, BODIES=BODIES, BODIES_KEYS=BODIES_KEYS, 
 
         
     for _ in range(loops):
-        for _ in range(iterations):
-            
+        for _ in range(iterations):            
             list(map(to_do, BODIES1, BODIES2))      
             list(map(update_rs_for_body, BODIES_KEYS))
             #advance(0.01, BODIES=BODIES)
@@ -204,18 +217,3 @@ def nbody(loops, reference, iterations, BODIES=BODIES, BODIES_KEYS=BODIES_KEYS, 
 
 if __name__ == '__main__':
     nbody(100, 'sun', 20000)
-
- 
-    """ 
-    
-    The relative speedups are: 
-    {1: 2.5943132204285995, 2: 1.162570218357162, 3: 1.0218080537714478, 4: 0.99983733795216001, 'orig': 1.0, 'opt': 2.7429071609949354}
-    
-    The time it took to run is:
-    {1: 30.994290845002979, 2: 69.164767191978171, 3: 78.692762500955723, 4: 80.421980100974906, 'orig': 80.408898497000337, 'opt': 29.31520965800155}
-    
-    I did break 30 seconds. :)
-    
-    """
-
-    
