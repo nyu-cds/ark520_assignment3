@@ -66,30 +66,6 @@ BODIES1, BODIES2= zip(*VISIT_SCHEDULE)
 BODIES_KEYS = list(BODIES.keys())
 dt = 0.01
 
-#def compute_deltas(x1, x2, y1, y2, z1, z2):
-#    return (x1-x2, y1-y2, z1-z2)
-    
-#def compute_b(m, dt, dx, dy, dz):
-#    mag = compute_mag(dt, dx, dy, dz)
-#    return m * mag
-
-#def compute_mag(dt, dx, dy, dz):
-#    return dt * ((dx * dx + dy * dy + dz * dz) ** (-1.5))
-
-#def update_vs(v1, v2, dt, dx, dy, dz, m1, m2):
-#    v1[0] -= dx * compute_b(m2, dt, dx, dy, dz)
-#    v1[1] -= dy * compute_b(m2, dt, dx, dy, dz)
-#    v1[2] -= dz * compute_b(m2, dt, dx, dy, dz)
-#    v2[0] += dx * compute_b(m1, dt, dx, dy, dz)
-#    v2[1] += dy * compute_b(m1, dt, dx, dy, dz)
-#    v2[2] += dz * compute_b(m1, dt, dx, dy, dz)
-
-#def update_rs(r, dt, vx, vy, vz):
-#    r[0] += dt * vx
-#    r[1] += dt * vy
-#    r[2] += dt * vz
-
-
 def to_do(body1, body2, BODIES=BODIES, dt=dt):
     ([x1, y1, z1], v1, m1) = BODIES[body1]
     ([x2, y2, z2], v2, m2) = BODIES[body2]
@@ -134,10 +110,9 @@ def report_energy(e=0.0, BODIES=BODIES, BODIES_KEYS=BODIES_KEYS):
     for (body1, body2) in VISIT_SCHEDULE:
         ((x1, y1, z1), v1, m1) = BODIES[body1]
         ((x2, y2, z2), v2, m2) = BODIES[body2]
-        #(dx, dy, dz) = compute_deltas(x1, x2, y1, y2, z1, z2)
+
         (dx, dy, dz) = (x1-x2, y1-y2, z1-z2)
 
-        #e -= compute_energy(m1, m2, dx, dy, dz)
         e -= (m1 * m2) / ((dx * dx + dy * dy + dz * dz) ** 0.5)
         
     for body in BODIES_KEYS:
@@ -151,7 +126,6 @@ def offset_momentum(ref, px=0.0, py=0.0, pz=0.0, BODIES=BODIES, BODIES_KEYS=BODI
         ref is the body in the center of the system
         offset values from this reference
     '''
-    #for body, (r, [vx, vy, vz], m) in BODIES.items():
     for body in BODIES_KEYS:
         (r, [vx, vy, vz], m) = BODIES[body]
         px -= vx * m
@@ -179,7 +153,6 @@ def nbody(loops, reference, iterations, BODIES=BODIES, BODIES_KEYS=BODIES_KEYS, 
         for _ in range(iterations):            
             list(map(to_do, BODIES1, BODIES2))      
             list(map(update_rs_for_body, BODIES_KEYS))
-            #advance(0.01, BODIES=BODIES)
         print(report_energy(BODIES=BODIES))
             
     """    
