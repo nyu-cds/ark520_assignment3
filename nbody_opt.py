@@ -73,15 +73,15 @@ def to_do(body1, body2, BODIES=BODIES, dt=dt):
     
     mag = dt * ((dx * dx + dy * dy + dz * dz) ** (-1.5))
 
-    thing_for_v1 = m2 * mag
-    v1[0] -= dx * thing_for_v1
-    v1[1] -= dy * thing_for_v1
-    v1[2] -= dz * thing_for_v1
+    body1_velocity_arg = m2 * mag
+    v1[0] -= dx * body1_velocity_arg
+    v1[1] -= dy * body1_velocity_arg
+    v1[2] -= dz * body1_velocity_arg
 
-    thing_for_v2 = m1 * mag            
-    v2[0] += dx * thing_for_v2
-    v2[1] += dy * thing_for_v2
-    v2[2] += dz * thing_for_v2
+    body2_velocity_arg = m1 * mag            
+    v2[0] += dx * body2_velocity_arg
+    v2[1] += dy * body2_velocity_arg
+    v2[2] += dz * body2_velocity_arg
 
 def update_rs_for_body(body, BODIES=BODIES, dt=dt):
     (r, [vx, vy, vz], m) = BODIES[body]
