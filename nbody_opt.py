@@ -148,7 +148,7 @@ def nbody(loops, reference, iterations, BODIES=BODIES, BODIES_KEYS=BODIES_KEYS, 
         for _ in range(iterations):            
             list(map(to_do, BODIES1, BODIES2))      
             list(map(update_rs_for_body, BODIES_KEYS))
-        print(report_energy(BODIES=BODIES))
+        print(report_energy())
             
     """    
     def i_func(_):
