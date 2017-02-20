@@ -69,7 +69,6 @@ dt = 0.01
 def to_do(body1, body2, BODIES=BODIES, dt=dt):
     ([x1, y1, z1], v1, m1) = BODIES[body1]
     ([x2, y2, z2], v2, m2) = BODIES[body2]
-    #(dx, dy, dz) = compute_deltas(x1, x2, y1, y2, z1, z2)
     (dx, dy, dz) = (x1-x2, y1-y2, z1-z2)
     
     mag = dt * ((dx * dx + dy * dy + dz * dz) ** (-1.5))
@@ -86,7 +85,6 @@ def to_do(body1, body2, BODIES=BODIES, dt=dt):
 
 def update_rs_for_body(body, BODIES=BODIES, dt=dt):
     (r, [vx, vy, vz], m) = BODIES[body]
-    #update_rs(r, dt, vx, vy, vz)
     r[0] += dt * vx
     r[1] += dt * vy
     r[2] += dt * vz 
