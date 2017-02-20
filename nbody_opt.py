@@ -97,9 +97,6 @@ def advance(dt=dt, VISIT_SCHEDULE=VISIT_SCHEDULE, BODIES=BODIES, BODIES1=BODIES1
     list(map(to_do, BODIES1, BODIES2))      
     list(map(update_rs_for_body, BODIES_KEYS))
     
-
-def compute_energy(m1, m2, dx, dy, dz):
-    return (m1 * m2) / ((dx * dx + dy * dy + dz * dz) ** 0.5)
     
 def report_energy(e=0.0, BODIES=BODIES, BODIES_KEYS=BODIES_KEYS):
     '''
